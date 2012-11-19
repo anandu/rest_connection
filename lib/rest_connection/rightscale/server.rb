@@ -119,18 +119,18 @@ class Server
 
   # waits until the server is operational and dns_name is available
   def wait_for_operational_with_dns(state_wait_timeout=1200)
-    timeout = 600
+    dns_timeout = @settings[:dns_timeout_in_seconds]
     wait_for_state("operational", state_wait_timeout)
     step = 15
-    while(timeout > 0)
+    while(dns_timeout > 0)
       self.settings
       break if self.reachable_ip
       connection.logger "waiting for IP for #{self.nickname}"
       sleep step
-      timeout -= step
+      dns_timeout -= step
     end
     connection.logger "got IP: #{self.reachable_ip}"
-    raise "FATAL, this server #{self.audit_link} timed out waiting for IP" if timeout <= 0
+    raise "FATAL, this server #{self.audit_link} timed out waiting for IP" if dns_timeout <= 0
   end
 
   def audit_link

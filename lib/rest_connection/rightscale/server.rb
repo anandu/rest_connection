@@ -126,7 +126,8 @@ class Server
     connection.logger "#{self.nickname} is operational, now checking for ip address..."
 
     # Now poll for an ip address
-    dns_timeout = @@dns_timeout_in_seconds
+    dns_timeout_in_seconds = 1200 # Hard coded for now
+    dns_timeout = dns_timeout_in_seconds
     dns_step = 15
     while(dns_timeout > 0)
       self.settings
@@ -140,7 +141,7 @@ class Server
       dns_timeout -= dns_step
     end
 
-    raise "FATAL, server #{self.nickname}, #{self.audit_link} timed out waiting for IP, waited for #{@@dns_timeout_in_seconds}."
+    raise "FATAL, server #{self.nickname}, #{self.audit_link} timed out waiting for IP, waited for #{dns_timeout_in_seconds}."
   end
 
   def audit_link

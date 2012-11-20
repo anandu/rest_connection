@@ -53,7 +53,6 @@ module RestConnection
       @@logger = nil
       @@user = nil
       @@pass = nil
-      @@dns_timeout_in_seconds = nil
       etc_config = File.join("#{File::SEPARATOR}etc", "rest_connection", "rest_api_config.yaml")
       app_bin_dir = File.expand_path(File.dirname(caller.last))
       app_yaml = File.join(app_bin_dir,"..","config","rest_api_config.yaml")
@@ -86,9 +85,6 @@ module RestConnection
       @settings[:azure_hack_retry_count] ||= 5
       @settings[:azure_hack_sleep_seconds] ||= 60
       @settings[:api_logging] ||= false
-      @settings[:dns_timeout_in_seconds] ||= 600
-
-      @@dns_timeout_in_seconds = @settings[:dns_timeout_in_seconds]
     end
 
     # Main HTTP connection loop. Common settings are set here, then we yield(BASE_URI, OPTIONAL_HEADERS) to other methods for each type of HTTP request: GET, PUT, POST, DELETE
